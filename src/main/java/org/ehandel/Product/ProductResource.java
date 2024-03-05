@@ -11,6 +11,7 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -37,7 +38,7 @@ public class ProductResource {
 
     @GET
     @Path("/{id}")
-    public Response getProductById(@jakarta.ws.rs.PathParam("id") Long id) {
+    public Response getProductById(@PathParam("id") Long id) {
 
         Product product = productService.find(id);
 
@@ -64,7 +65,7 @@ public class ProductResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteProduct(@jakarta.ws.rs.PathParam("id") Long id) {
+    public Response deleteProduct(@PathParam("id") Long id) {
 
         productService.delete(id);
         return Response.noContent().build();
