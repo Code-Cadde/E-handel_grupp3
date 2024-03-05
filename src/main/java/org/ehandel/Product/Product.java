@@ -18,8 +18,7 @@ public class Product {
     private String imageUrl;
     private int quantity;
     private double price;
-
-
+    
     public Long getId() {
         return id;
     }
@@ -56,6 +55,4 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    
 }
