@@ -21,72 +21,107 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import com.stripe.Stripe;
-import com.stripe.model.ProductCollection;
-import com.stripe.param.ProductListParams;
-
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 
 @Path("/order")
-
 public class CartResource {
 
-	@Inject
+    @Inject
     ProductService productService;
     EntityManager em;
 
-	public List <Product> orderList = new ArrayList<>();
+    public List<Product> orderList = new ArrayList<>();
 
-	//Hämta/visa orderlista
-	@GET
-	public List<Product> getOrderList() {
-		
-		return orderList;
-	}
+    @GET
+    public List<Product> getOrderList() {
+        return orderList;
+    }
 
-	//Lägga till produkt
-	@POST
-	@Path("/add/{id}")
-	public List<Product> addProduct(@PathParam ("id") Long id) {
-		
-		Product product = productService.find(id);
-		orderList.add(product);
+    @POST
+    @Path("/add/{id}")
+    public List<Product> addProduct(@PathParam("id") Long id) {
+        Product product = productService.find(id);
+        orderList.add(product);
+        return orderList;
+    }
 
-		return orderList;
-	}
+    @DELETE
+    @Path("/remove/{id}")
+    public List<Product> deleteProduct(@PathParam("id") Long id) {
+        orderList.removeIf(product -> product.getId().equals(id));
+        return orderList;
+    }
 
-	//Deleta produkter
+    @PATCH
+    @Path("/edit/{id}")
+    public List<Product> editProduct(@PathParam("id") Long id, @QueryParam("quantity") int newQuantity) {
+        for (Product product : orderList) {
+            if (product.getId().equals(id)) {
+                product.setQuantity(newQuantity);
+                product.setTotalPrice(product.getPricePerItem() * newQuantity);
+                break;
+            }
+        }
+        return orderList;
+    }
 
-	@DELETE
-	@Path("/remove/{id}")
-	public List<Product> deleteProduct(@PathParam("id") Long id) {
-		
-		orderList.removeIf(product -> product.getId().equals(id));
-		
-		return orderList;
-	}
+    @POST
+    @Path("/purchase")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response startCheckout() {
+        try {
+            if (orderList.isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Order list is empty").build();
+            }
 
-	//Ändra antal och pris
+            Stripe.apiKey = "sk_test_51OoMvCJedaXYqji2pwxGcUaTRy7KN1uNwgsPCu6ZdvW5tXUKdbll2464WXz0gBkSK3D87VoHEjtAJvUt2qr5Ucrx00LFr8vsd3";
+            
+            List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
+			for (Product product : orderList) {
+				lineItems.add(
 
-	@PATCH
-	@Path("/edit/{id}")
-	public List<Product> editProduct(@PathParam("id") Long id, @QueryParam("quantity") int newQuantity) {
+					SessionCreateParams.LineItem.builder()
+						.setPriceData(
+							SessionCreateParams.LineItem.PriceData.builder()
+								.setCurrency("sek")
+								.setProductData(
+									SessionCreateParams.LineItem.PriceData.ProductData.builder()
+										.setName(product.getTaste())
+										.build()
+								)
+								.setUnitAmount((long) (product.getTotalPrice() * 100)) // Använd totalpriset i stället för enhetspriset
+								.build()
+						)
+						.setQuantity((long) product.getQuantity())
+						.setAdjustableQuantity(
+          SessionCreateParams.LineItem.AdjustableQuantity.builder()
+            .setEnabled(true)
+            .setMinimum(1L)
+            .setMaximum(10L)
+            .build()
+        )
+						.build()
 
-		for (Product product : orderList) {
-			if (product.getId().equals(id)) {
-
-				product.setQuantity(newQuantity);
-				product.setTotalPrice(product.getPricePerItem() * newQuantity);
-				
-				break;
+				);
 			}
-		}
-		return orderList;
-	}
+			System.out.println("Line items: " + lineItems);
+            SessionCreateParams params =
+                    SessionCreateParams.builder()
+                            .setSuccessUrl("https://localhost:8080")
+                            .setCancelUrl("https://example.com/cancel")
+                            .addAllLineItem(lineItems)
+                            .setMode(SessionCreateParams.Mode.PAYMENT)
+                            .build();
 
-// 	@POST
-//     @Path("/purchase")
-//     public Response startCheckout(List orderList) {
-//         Stripe.apiKey = "sk_test_51OoMvCJedaXYqji2pwxGcUaTRy7KN1uNwgsPCu6ZdvW5tXUKdbll2464WXz0gBkSK3D87VoHEjtAJvUt2qr5Ucrx00LFr8vsd3";
-// }
+            Session session = Session.create(params);
 
-	
+            return Response.ok(session.toJson()).build();
+
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        }
+    }
 }
