@@ -20,6 +20,11 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import com.stripe.Stripe;
+import com.stripe.model.ProductCollection;
+import com.stripe.param.ProductListParams;
+
+
 @Path("/order")
 
 public class CartResource {
@@ -76,4 +81,12 @@ public class CartResource {
 		}
 		return orderList;
 	}
+
+// 	@POST
+//     @Path("/purchase")
+//     public Response startCheckout(List orderList) {
+//         Stripe.apiKey = "sk_test_51OoMvCJedaXYqji2pwxGcUaTRy7KN1uNwgsPCu6ZdvW5tXUKdbll2464WXz0gBkSK3D87VoHEjtAJvUt2qr5Ucrx00LFr8vsd3";
+// }
+
+	
 }
