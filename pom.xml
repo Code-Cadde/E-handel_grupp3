@@ -17,7 +17,8 @@
     <surefire-plugin.version>3.2.5</surefire-plugin.version>
   </properties>
   <dependencyManagement>
-    <dependencies>
+  <dependencies>
+    
       <dependency>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>${quarkus.platform.artifact-id}</artifactId>
@@ -32,6 +33,11 @@
     <groupId>io.quarkus</groupId>
     <artifactId>quarkus-resteasy-jsonb</artifactId>
 </dependency>
+    <dependency>
+      <groupId>com.stripe</groupId>
+      <artifactId>stripe-java</artifactId>
+      <version>24.18.0</version>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm</artifactId>
