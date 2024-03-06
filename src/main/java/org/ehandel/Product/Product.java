@@ -17,10 +17,17 @@ public class Product {
     private String description;
     private String imageUrl;
     private int quantity;
-    private double price;
+    private double pricePerItem = 15.90;
+    private double totalPrice = pricePerItem;
     
     public Long getId() {
         return id;
+    }
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+    public void setTotalPrice(double finalprice) {
+        this.totalPrice = finalprice;
     }
     public void setId(Long id) {
         this.id = id;
@@ -49,10 +56,10 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public double getPrice() {
-        return price;
+    public double getPricePerItem() {
+        return pricePerItem;
     }
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPricePerItem(double price) {
+        this.pricePerItem = price;
     }
 }

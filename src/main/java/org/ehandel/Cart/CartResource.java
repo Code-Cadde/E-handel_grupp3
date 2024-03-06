@@ -68,9 +68,8 @@ public class CartResource {
 		for (Product product : orderList) {
 			if (product.getId().equals(id)) {
 
-				double Price = 15.90;
-				product.setPrice(Price * newQuantity);
 				product.setQuantity(newQuantity);
+				product.setTotalPrice(product.getPricePerItem() * newQuantity);
 				
 				break;
 			}
