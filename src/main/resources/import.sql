@@ -6,10 +6,10 @@
 -- alter sequence myentity_seq restart with 4;
 
 insert into t_product (id, taste, description, imageUrl, quantity, pricePerItem, totalPrice)
-values (1,'Apple', 'Smakar bra','apple.img', 1, 15, 15);
+values (1,'Apple', 'Smakar bra','apple.img', 1, 15.90, 15.90);
 
 insert into t_product (id, taste, description, imageUrl, quantity, pricePerItem, totalPrice)
-values (2,'Pappel', 'Smakar jätte bra','papple.img', 1, 15, 15);
+values (2,'Pappel', 'Smakar jätte bra','papple.img', 1, 15.90, 15.90);
 
 insert into t_product (id, taste, description, imageUrl, quantity, pricePerItem, totalPrice)
-values (3,'Piron', 'Smakar inte så bra','piron.img', 1, 15, 15);
+values (3,'Piron', 'Smakar inte så bra','piron.img', 1, 15.90, 15.90);
