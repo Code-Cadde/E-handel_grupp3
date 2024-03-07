@@ -99,7 +99,7 @@ public class CartResource {
           SessionCreateParams.LineItem.AdjustableQuantity.builder()
             .setEnabled(true)
             .setMinimum(1L)
-            .setMaximum(10L)
+            .setMaximum(999L)
             .build()
         )
 						.build()
