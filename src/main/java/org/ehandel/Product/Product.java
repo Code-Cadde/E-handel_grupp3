@@ -1,8 +1,5 @@
 package org.ehandel.Product;
 
-import com.stripe.model.ProductCollection;
-import com.stripe.param.ProductListParams;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
