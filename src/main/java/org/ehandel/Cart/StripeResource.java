@@ -1,16 +1,10 @@
 package org.ehandel.Cart;
 
-import java.util.ArrayList; // Importera ArrayList från java.util
-import java.util.List; // Importera List från java.util
-
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Product;
 import com.stripe.model.ProductCollection;
-import com.stripe.model.checkout.Session;
 import com.stripe.param.ProductListParams;
-import com.stripe.param.checkout.SessionCreateParams;
-
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
