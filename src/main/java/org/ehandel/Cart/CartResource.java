@@ -2,7 +2,6 @@ package org.ehandel.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.ehandel.Product.Product;
 import org.ehandel.Product.ProductService;
 
@@ -88,8 +87,10 @@ public class CartResource {
 								.setProductData(
 									SessionCreateParams.LineItem.PriceData.ProductData.builder()
 										.setName(product.getTaste())
+                                        
 										.build()
 								)
+                                
 								.setUnitAmount((long) (product.getTotalPrice() * 100)) // Använd totalpriset i stället för enhetspriset
 								.build()
 						)
@@ -123,4 +124,5 @@ public class CartResource {
             return Response.serverError().build();
         }
     }
+
 }
