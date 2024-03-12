@@ -127,6 +127,9 @@ public class CartResource {
                             .build();
 
             Session session = Session.create(params);
+            orderList.clear();
+
+            
 
             return Response.ok(session.toJson()).build();
 
