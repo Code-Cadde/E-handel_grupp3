@@ -84,7 +84,8 @@ public class CartResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Order list is empty").build();
             }
 
-            Stripe.apiKey = "sk_test_51OoMvCJedaXYqji2pwxGcUaTRy7KN1uNwgsPCu6ZdvW5tXUKdbll2464WXz0gBkSK3D87VoHEjtAJvUt2qr5Ucrx00LFr8vsd3";
+            StripeApi stripeApi = new StripeApi();
+            Stripe.apiKey = stripeApi.getStripeApiKey();
             
             List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
 			for (Product product : orderList) {
