@@ -52,6 +52,16 @@ public class CartResource {
         return orderList;
     }
 
+    
+    // Tar bort hela ordern
+    @DELETE
+    @Path("/clear")
+    public Response clearOrder() {
+    orderList.clear(); // Tar bort alla produkterna i orderList
+    return Response.ok().build();
+    }
+
+
     @PATCH
     @Path("/edit/{id}")
     public List<Product> editProduct(@PathParam("id") Long id, @QueryParam("quantity") int newQuantity) {
@@ -109,7 +119,7 @@ public class CartResource {
 			System.out.println("Line items: " + lineItems);
             SessionCreateParams params =
                     SessionCreateParams.builder()
-                            .setSuccessUrl("https://localhost:8080")
+                            .setSuccessUrl("http://127.0.0.1:5500/info.html")
                             .setCancelUrl("https://example.com/cancel")
                             .addAllLineItem(lineItems)
                             .setMode(SessionCreateParams.Mode.PAYMENT)
