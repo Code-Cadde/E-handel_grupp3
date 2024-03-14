@@ -118,9 +118,11 @@ public class CartResource {
 				);
 			}
 			System.out.println("Line items: " + lineItems);
+            
+            String successUrl = "http://127.0.0.1:5500/index.html?paymentSuccess=true";
             SessionCreateParams params =
                     SessionCreateParams.builder()
-                            .setSuccessUrl("http://127.0.0.1:5500/info.html")
+                            .setSuccessUrl(successUrl)
                             .setCancelUrl("https://example.com/cancel")
                             .addAllLineItem(lineItems)
                             .setMode(SessionCreateParams.Mode.PAYMENT)
