@@ -102,7 +102,7 @@ public class CartResource {
 										.build()
 								)
                                 
-								.setUnitAmount((long) (product.getTotalPrice() * 100)) // Använd totalpriset i stället för enhetspriset
+								.setUnitAmount((long) (product.getTotalPrice() /product.getQuantity() * 100 )) // Använd totalpriset i stället för enhetspriset
 								.build()
 						)
 						.setQuantity((long) product.getQuantity())
